@@ -4,6 +4,35 @@ import std.string:fromStringz,toStringz;
 
 extern(C) void* cppyy_load_dictionary(const char* lib_name);
 //extern(C) cppyy_funcaddr_t cppyy_function_address_from_index(cppyy_scope_t scope_, cppyy_index_t idx);
+
+version(ExtendedWrapper)
+{
+	void*[] getGlobalFunctionWrappers()
+	{
+		import std.range:iota;
+		import std.algorithm:map;
+		import std.array:array;
+		import std.conv:to;
+		return iota(cppyy_globalfuncwrappers_getsize().to!int).map!(i => cppyy_globalfuncwrappers_getitem(i)).array;
+	}
+
+	void*[] getGlobalVariables()
+	{
+		import std.range:iota;
+		import std.algorithm:map;
+		import std.array:array;
+		import std.conv:to;
+		return iota(cppyy_globalvars_getsize().to!int).map!(i => cppyy_globalvars_getitem(i)).array;
+	}
+
+	void addIncludePath(string path)
+	{
+		import std.string:toStringz;
+		cppyy_add_include_path(path.toStringz);
+	}
+
+}
+
 version(None)
 {
 	alias cppyy_scope_t = size_t;
@@ -833,4 +862,3 @@ struct StdVectorBool
     	cppyy_vectorbool_setitem(handle,index,value?1:0);
 	}
 }
-
