@@ -13,6 +13,8 @@ I have successfully called cpp method taking an std::string from a D string and 
 4. introspect and call on functions not just methods
 5. generate D declarations for selected types/functions
 6. use this as a building block to create the tool we discussed at dconf - automated search + fuzzer for C++/D ABI and mangling.  tool should also verify correctness of STL/other C++ bindings we are starting to include in druntime
+7. addIncludePath doesn't seem to work consistently - fix it
+8. more general access to cling interpreter.  get typedef of line and get value of line.
 
 
 # Building
