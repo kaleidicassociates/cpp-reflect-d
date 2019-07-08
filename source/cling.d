@@ -153,10 +153,10 @@ extern(C)
     alias int8_t = byte;
     alias Unsigned = c_ulong;
     alias Signed = c_long;
-    void cppyy_vectorbool_setitem(void*, int, int) @nogc nothrow;
-    int cppyy_vectorbool_getitem(void*, int) @nogc nothrow;
-    void cppyy_double2longdouble(double, void*) @nogc nothrow;
-    double cppyy_longdouble2double(void*) @nogc nothrow;
+    void cppyy_add_include_path(const(char)*) @nogc nothrow;
+    void* cppyy_globalvars_getitem(int) @nogc nothrow;
+    c_ulong cppyy_globalvars_getsize() @nogc nothrow;
+    void* cppyy_globalfuncwrappers_getitem(int) @nogc nothrow;
     alias cppyy_scope_t = c_ulong;
     alias cppyy_type_t = c_ulong;
     alias cppyy_object_t = void*;
@@ -253,6 +253,11 @@ extern(C)
     void* cppyy_charp2stdstring(const(char)*, c_ulong) @nogc nothrow;
     const(char)* cppyy_stdstring2charp(void*, c_ulong*) @nogc nothrow;
     void* cppyy_stdstring2stdstring(void*) @nogc nothrow;
+    double cppyy_longdouble2double(void*) @nogc nothrow;
+    void cppyy_double2longdouble(double, void*) @nogc nothrow;
+    int cppyy_vectorbool_getitem(void*, int) @nogc nothrow;
+    void cppyy_vectorbool_setitem(void*, int, int) @nogc nothrow;
+    c_ulong cppyy_globalfuncwrappers_getsize() @nogc nothrow;
 
 
 
@@ -411,6 +416,35 @@ import std.string:fromStringz,toStringz;
 
 
 extern(C) void* cppyy_load_dictionary(const char* lib_name);
+
+
+version(ExtendedWrapper)
+{
+ void*[] getGlobalFunctionWrappers()
+ {
+  import std.range:iota;
+  import std.algorithm:map;
+  import std.array:array;
+  import std.conv:to;
+  return iota(cppyy_globalfuncwrappers_getsize().to!int).map!(i => cppyy_globalfuncwrappers_getitem(i)).array;
+ }
+
+ void*[] getGlobalVariables()
+ {
+  import std.range:iota;
+  import std.algorithm:map;
+  import std.array:array;
+  import std.conv:to;
+  return iota(cppyy_globalvars_getsize().to!int).map!(i => cppyy_globalvars_getitem(i)).array;
+ }
+
+ void addIncludePath(string path)
+ {
+  import std.string:toStringz;
+  cppyy_add_include_path(path.toStringz);
+ }
+
+}
 
 version(None)
 {

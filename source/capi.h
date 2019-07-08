@@ -244,6 +244,21 @@ extern "C" {
     RPY_EXPORTED
     void        cppyy_vectorbool_setitem(cppyy_object_t ptr, int idx, int value);
 
+	RPY_EXPORTED
+	size_t cppyy_globalfuncwrappers_getsize(void);
+
+	RPY_EXPORTED
+	void* cppyy_globalfuncwrappers_getitem(int idx);
+
+	RPY_EXPORTED
+	size_t cppyy_globalvars_getsize();
+
+	RPY_EXPORTED
+	void* cppyy_globalvars_getitem(int idx);
+
+	RPY_EXPORTED
+	void cppyy_add_include_path(const char *path);
+
 #ifdef __cplusplus
 }
 #endif // ifdef __cplusplus
