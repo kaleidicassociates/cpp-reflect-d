@@ -1,9 +1,19 @@
 Based of cppyy-backend fork of Cling C++ interpreter.  Wrapper around C interface to enable reflection on C/C++ code at runtime
 
-Status: alpha.
+# Status: alpha.
+
+I have successfully called cpp method taking an std::string from a D string and called a method that returns an std::string.  doubles and ints seem to work too.
+
 
 # TODO:
-wrap call method functions
+
+1. proper linux build
+2. windows build
+3. tests
+4. introspect and call on functions not just methods
+5. generate D declarations for selected types/functions
+6. use this as a building block to create the tool we discussed at dconf - automated search + fuzzer for C++/D ABI and mangling.  tool should also verify correctness of STL/other C++ bindings we are starting to include in druntime
+
 
 # Building
 
